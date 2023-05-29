@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./robot_ui:/code/robot_ui
+    depends_on:
+      - db
+    env_file:
+      - .env
+  db:
+    image: postgres:14
+    volumes:
+      - ./database_data:/var/lib/postgresql/data/
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    environment:
+      - POSTGRES_PASSWORD=${DB_ROOT_PASSWORD?err}
+    ports:
+      - "5432:5432"
