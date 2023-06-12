@@ -1,17 +1,58 @@
 import graphene
 
+from .inputs import StatusInput, DataInput
+from .models import RobotStatus, DataGroup, RobotData, RobotSession
 
-class TestMutation(graphene.Mutation):
+
+class UpdateStatusMutation(graphene.Mutation):
     class Arguments:
-        name = graphene.String(required=True)
+        status_dict = StatusInput(required=True)
 
-    ok = graphene.Boolean()
-    message = graphene.String()
+    ok = graphene.Boolean(required=True)
 
     @classmethod
-    def mutate(cls, root, info, name):
-        return cls(ok=True, message='Hello %s' % name)
+    def mutate(cls, root, info, status_dict: StatusInput):
+        robot = RobotSession.objects.get(
+            name=status_dict.robot,
+            session__name=status_dict.session
+        )
+
+        RobotStatus.objects.update_or_create(
+            robot=robot,
+            defaults={
+                'status': status_dict.status,
+                'timestamp': status_dict.timestamp
+            }
+        )
+
+        return cls(ok=True)
+
+
+class AddDataMutation(graphene.Mutation):
+    class Arguments:
+        data_dict = DataInput(required=True)
+
+    ok = graphene.Boolean(required=True)
+
+    @classmethod
+    def mutate(cls, root, info, data_dict: DataInput):
+        data_group = DataGroup.objects.get(
+            name=data_dict.data_group,
+            robot_session__name=data_dict.robot,
+            robot_session__session__name=data_dict.session
+        )
+
+        RobotData.objects.create(
+            data_group=data_group,
+            data=data_dict.data,
+            timestamp=data_dict.timestamp,
+        )
+
+        return cls(ok=True)
+
+# TODO: handle errors
 
 
 class Mutation(graphene.ObjectType):
-    test_mutation = TestMutation.Field()
+    update_status = UpdateStatusMutation.Field()
+    add_data = AddDataMutation.Field()
