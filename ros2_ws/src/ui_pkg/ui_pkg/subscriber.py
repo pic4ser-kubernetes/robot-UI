@@ -1,3 +1,5 @@
+import datetime
+
 import rclpy
 from rclpy.node import Node
 
@@ -20,9 +22,51 @@ class GQLSendMixin:
 
         super().__init__(*args, **kwargs)
 
-    def gql_send(self, query_string, variables=None):
+    def _gql_send(self, query_string, variables=None):
         query = gql(query_string)
         return self._gql_client.execute(query, variable_values=variables)
+
+    def gql_add_data(self, session: str, robot: str, data_group: str, data: str, timestamp: str):
+        query = '''
+        mutation addData($session: String!, $robot: String!, $dataGroup: String!, $data: String!, $timestamp: DateTime!) {
+            addData(
+                dataDict: {session: $session, robot: $robot, dataGroup: $dataGroup, data: $data, timestamp: $timestamp}
+            ) {
+                ok
+            }
+        }
+        '''
+
+        variables = {
+            'session': session,
+            'robot': robot,
+            'dataGroup': data_group,
+            'data': data,
+            'timestamp': timestamp,
+        }
+
+        return self._gql_send(query, variables)
+
+    def gql_update_status(self, session: str, robot: str, parameter_name: str, status: str, timestamp: str):
+        query = '''
+        mutation updateStatus($session: String!, $robot: String!, $name: String!, $status: String!, $timestamp: DateTime!) {
+            updateStatus(
+                statusDict: {session: $session, robot: $robot, name: $name, status: $status, timestamp: $timestamp}
+            ) {
+                ok
+            }
+        }
+        '''
+
+        variables = {
+            'session': session,
+            'robot': robot,
+            'name': parameter_name,
+            'status': status,
+            'timestamp': timestamp,
+        }
+
+        return self._gql_send(query, variables)
 
 
 class MinimalSubscriber(GQLSendMixin, Node):
@@ -37,7 +81,10 @@ class MinimalSubscriber(GQLSendMixin, Node):
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg: String):
-        self.get_logger().info(f"Result: {self.gql_send(msg.data)}")
+        rt = self.get_clock().now().to_msg()
+        dt = datetime.datetime.utcfromtimestamp(rt.sec)
+
+        self.get_logger().info(f"Result: {self.gql_update_status('test session', 'test robot', 'test status', msg.data, dt.isoformat())}")
 
 
 def main(args=None):
