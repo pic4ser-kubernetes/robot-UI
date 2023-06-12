@@ -29,7 +29,7 @@ class RobotData(models.Model):
     data_group = models.ForeignKey(DataGroup, on_delete=models.CASCADE, related_name='robot_data')
     timestamp = models.DateTimeField()
 
-    # data here
+    data = models.FloatField()
 
     def __str__(self):
         return f"{self.data_group} - {self.timestamp}"
@@ -39,7 +39,7 @@ class RobotStatus(models.Model):
     data_group = models.ForeignKey(DataGroup, on_delete=models.CASCADE, related_name='robot_status')
     timestamp = models.DateTimeField()
 
-    status = models.CharField(max_length=256)
+    status = models.TextField()
 
     def __str__(self):
         return f"{self.data_group} - {self.timestamp}: {self.status}"
