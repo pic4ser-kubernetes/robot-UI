@@ -19,6 +19,7 @@ class UpdateStatusMutation(graphene.Mutation):
 
         RobotStatus.objects.update_or_create(
             robot=robot,
+            name=status_dict.name,
             defaults={
                 'status': status_dict.status,
                 'timestamp': status_dict.timestamp

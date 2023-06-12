@@ -43,4 +43,4 @@ class RobotStatus(models.Model):
     status = models.TextField()
 
     def __str__(self):
-        return f"{self.robot} - {self.timestamp} - {self.status}"
+        return f"{self.robot}({self.name}) - {self.timestamp}"

@@ -8,6 +8,7 @@ class SessionInput(graphene.InputObjectType):
 
 class StatusInput(SessionInput):
     status = graphene.String(required=True)
+    name = graphene.String(required=True)
     timestamp = graphene.DateTime(required=True)
 
 
