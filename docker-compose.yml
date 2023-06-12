@@ -20,3 +20,9 @@ services:
       - POSTGRES_PASSWORD=${DB_ROOT_PASSWORD?err}
     ports:
       - "5432:5432"
+
+  ros:
+    image: osrf/ros:humble-desktop-full
+    volumes:
+      - ./ros2_ws:/ros2_ws
+    command: sleep 1600000000

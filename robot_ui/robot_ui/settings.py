@@ -117,3 +117,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 GRAPHENE = {
     'SCHEMA': 'robot_ui.schema.schema',
 }
+
+ALLOWED_HOSTS = ['*']

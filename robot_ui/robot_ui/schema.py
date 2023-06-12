@@ -1,14 +1,14 @@
 import graphene
 
-
-class Query(graphene.ObjectType):
-    test = graphene.String()
-
-    def resolve_test(self, info):
-        return "Hello World"
+from data.queries import Query as DataQuery
+from data.mutations import Mutation as DataMutation
 
 
-class Mutation(graphene.ObjectType):
+class Query(DataQuery, graphene.ObjectType):
+    pass
+
+
+class Mutation(DataMutation, graphene.ObjectType):
     pass
 
 
