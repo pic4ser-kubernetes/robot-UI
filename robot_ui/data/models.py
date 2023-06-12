@@ -36,10 +36,11 @@ class RobotData(models.Model):
 
 
 class RobotStatus(models.Model):
-    data_group = models.ForeignKey(DataGroup, on_delete=models.CASCADE, related_name='robot_status')
+    robot = models.ForeignKey(RobotSession, on_delete=models.CASCADE, related_name='robot_status')
+    name = models.CharField(max_length=256)
     timestamp = models.DateTimeField()
 
     status = models.TextField()
 
     def __str__(self):
-        return f"{self.data_group} - {self.timestamp}: {self.status}"
+        return f"{self.robot} - {self.timestamp} - {self.status}"
