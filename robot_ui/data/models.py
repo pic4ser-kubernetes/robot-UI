@@ -8,6 +8,9 @@ class Session(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        default_permissions = ()
+
 
 class RobotSession(models.Model):
     name = models.CharField(max_length=256)
@@ -16,6 +19,9 @@ class RobotSession(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        default_permissions = ()
+
 
 class DataGroup(models.Model):
     name = models.CharField(max_length=256)
@@ -23,6 +29,9 @@ class DataGroup(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        default_permissions = ()
 
 
 class RobotData(models.Model):
