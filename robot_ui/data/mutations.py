@@ -17,13 +17,11 @@ class UpdateStatusMutation(graphene.Mutation):
             session__name=status_dict.session
         )
 
-        RobotStatus.objects.update_or_create(
+        RobotStatus.objects.create(
             robot=robot,
             name=status_dict.name,
-            defaults={
-                'status': status_dict.status,
-                'timestamp': status_dict.timestamp
-            }
+            status=status_dict.status,
+            timestamp=status_dict.timestamp
         )
 
         return cls(ok=True)

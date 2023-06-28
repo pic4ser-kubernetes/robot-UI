@@ -1,6 +1,7 @@
-# edits
-ros2_ws/install
+# edits by me
 ros2_ws/log
+grafana_data/
+database_data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

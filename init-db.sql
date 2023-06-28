@@ -4,3 +4,6 @@ ALTER ROLE robot_ui WITH LOGIN;
 ALTER ROLE robot_ui
 SET timezone TO 'UTC';
 GRANT ALL PRIVILEGES ON DATABASE robot_ui TO robot_ui;
+CREATE ROLE grafana_user WITH PASSWORD 'CHANGEMETOO';
+ALTER ROLE grafana_user WITH LOGIN;
+GRANT pg_read_all_data TO grafana_user;

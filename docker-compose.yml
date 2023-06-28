@@ -3,6 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
+    restart: unless-stopped
     ports:
       - "8000:8000"
     volumes:
@@ -13,16 +14,26 @@ services:
       - .env
   db:
     image: postgres:14
+    restart: unless-stopped
     volumes:
       - ./database_data:/var/lib/postgresql/data/
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     environment:
       - POSTGRES_PASSWORD=${DB_ROOT_PASSWORD?err}
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
 
   ros:
-    image: osrf/ros:humble-desktop-full
+    build: ./ros2_ws
     volumes:
       - ./ros2_ws:/ros2_ws
-    command: sleep 1600000000
+
+  grafana:
+    image: grafana/grafana-oss:10.0.1
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+    depends_on:
+      - db
