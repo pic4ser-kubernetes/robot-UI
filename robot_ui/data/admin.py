@@ -1,23 +1,18 @@
 from django.contrib import admin
-from django.http.request import HttpRequest
 
-from robot_ui.admin import my_admin_site
-from .models import Session, RobotSession, DataGroup
+from .models import Session, RobotSession, DataGroup, RobotData, RobotStatus
 
 
-@admin.register(Session, RobotSession, DataGroup, site=my_admin_site)
+@admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
-    def has_add_permission(self, request: HttpRequest) -> bool:
-        return True
+    pass
 
-    def has_change_permission(self, request: HttpRequest, obj=None) -> bool:
-        return True
 
-    def has_delete_permission(self, request: HttpRequest, obj=None) -> bool:
-        return True
+@admin.register(RobotSession)
+class RobotSessionAdmin(admin.ModelAdmin):
+    pass
 
-    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return True
 
-    def has_module_permission(self, request: HttpRequest) -> bool:
-        return True
+@admin.register(DataGroup)
+class DataGroupAdmin(admin.ModelAdmin):
+    pass
