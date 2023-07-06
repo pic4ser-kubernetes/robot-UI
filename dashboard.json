@@ -29,6 +29,256 @@
     "liveNow": false,
     "panels": [
         {
+            "collapsed": false,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 7,
+            "panels": [],
+            "repeat": "robotSession",
+            "repeatDirection": "h",
+            "title": "$robotSession",
+            "type": "row"
+        },
+        {
+            "datasource": {
+                "type": "postgres",
+                "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 3,
+                "w": 12,
+                "x": 0,
+                "y": 1
+            },
+            "id": 4,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "/^status$/",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.1",
+            "repeat": "robotStatus",
+            "repeatDirection": "h",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "postgres",
+                        "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
+                    },
+                    "editorMode": "code",
+                    "format": "table",
+                    "rawQuery": true,
+                    "rawSql": "SELECT rs.timestamp AS \"time\", rs.status\r\nFROM data_robotstatus rs\r\n  INNER JOIN data_robotsession rse ON(rs.robot_id = rse.id)\r\n  INNER JOIN data_session ds ON(rse.session_id = ds.id)\r\nWHERE ds.name = '$session' AND rse.name = $robotSession AND ds.active = true AND rs.name = $robotStatus",
+                    "refId": "A",
+                    "sql": {
+                        "columns": [
+                            {
+                                "parameters": [],
+                                "type": "function"
+                            }
+                        ],
+                        "groupBy": [
+                            {
+                                "property": {
+                                    "type": "string"
+                                },
+                                "type": "groupBy"
+                            }
+                        ],
+                        "limit": 50
+                    }
+                }
+            ],
+            "title": "$robotStatus",
+            "transformations": [],
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "postgres",
+                "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "continuous-GrYlRd"
+                    },
+                    "custom": {
+                        "fillOpacity": 70,
+                        "lineWidth": 0,
+                        "spanNulls": false
+                    },
+                    "mappings": [
+                        {
+                            "options": {
+                                "not ok": {
+                                    "color": "red",
+                                    "index": 1
+                                },
+                                "ok": {
+                                    "color": "green",
+                                    "index": 0
+                                }
+                            },
+                            "type": "value"
+                        }
+                    ],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 24,
+                "x": 0,
+                "y": 4
+            },
+            "id": 1,
+            "options": {
+                "alignValue": "left",
+                "legend": {
+                    "displayMode": "table",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "mergeValues": true,
+                "rowHeight": 0.9,
+                "showValue": "always",
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "postgres",
+                        "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
+                    },
+                    "editorMode": "code",
+                    "format": "table",
+                    "rawQuery": true,
+                    "rawSql": "SELECT rs.timestamp AS \"time\", rs.name, rs.status\r\nFROM data_robotstatus rs\r\n  INNER JOIN data_robotsession rse ON (rs.robot_id = rse.id)\r\n  INNER JOIN data_session ds ON (rse.session_id = ds.id)\r\nWHERE rs.name IN ( ${robotStatus:sqlstring} )\r\n  AND rse.name = $robotSession\r\n  AND ds.active = true\r\n  AND ds.name = '$session'",
+                    "refId": "A",
+                    "sql": {
+                        "columns": [
+                            {
+                                "alias": "\"time\"",
+                                "parameters": [
+                                    {
+                                        "name": "\"timestamp\"",
+                                        "type": "functionParameter"
+                                    }
+                                ],
+                                "type": "function"
+                            },
+                            {
+                                "parameters": [
+                                    {
+                                        "name": "name",
+                                        "type": "functionParameter"
+                                    }
+                                ],
+                                "type": "function"
+                            },
+                            {
+                                "parameters": [
+                                    {
+                                        "name": "status",
+                                        "type": "functionParameter"
+                                    }
+                                ],
+                                "type": "function"
+                            }
+                        ],
+                        "groupBy": [
+                            {
+                                "property": {
+                                    "type": "string"
+                                },
+                                "type": "groupBy"
+                            }
+                        ],
+                        "limit": 50
+                    },
+                    "table": "data_robotstatus"
+                }
+            ],
+            "title": "Panel Title",
+            "transformations": [
+                {
+                    "id": "groupingToMatrix",
+                    "options": {
+                        "columnField": "name",
+                        "emptyValue": "null",
+                        "rowField": "time",
+                        "valueField": "status"
+                    }
+                },
+                {
+                    "id": "convertFieldType",
+                    "options": {
+                        "conversions": [
+                            {
+                                "destinationType": "time",
+                                "targetField": "time\\name"
+                            }
+                        ],
+                        "fields": {}
+                    }
+                }
+            ],
+            "type": "state-timeline"
+        },
+        {
             "datasource": {
                 "type": "postgres",
                 "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
@@ -82,10 +332,10 @@
                 "overrides": []
             },
             "gridPos": {
-                "h": 8,
-                "w": 24,
+                "h": 5,
+                "w": 12,
                 "x": 0,
-                "y": 0
+                "y": 8
             },
             "id": 3,
             "maxPerRow": 2,
@@ -105,7 +355,7 @@
                 }
             },
             "repeat": "dataGroup",
-            "repeatDirection": "v",
+            "repeatDirection": "h",
             "targets": [
                 {
                     "datasource": {
@@ -115,7 +365,7 @@
                     "editorMode": "code",
                     "format": "table",
                     "rawQuery": true,
-                    "rawSql": "SELECT rd.\"timestamp\", rd.data, dg.name\r\nFROM data_robotdata rd INNER JOIN data_datagroup dg ON (rd.data_group_id = dg.id)\r\nWHERE dg.name = $dataGroup AND dg.robot_session_id = (\r\n  SELECT id \r\n  FROM data_robotsession \r\n  WHERE name = '$robotSession' and id = (\r\n    SELECT id \r\n    FROM data_session \r\n    WHERE active = true and name = '$session' \r\n  ) \r\n)",
+                    "rawSql": "SELECT rd.\"timestamp\", rd.data, dg.name\r\nFROM data_robotdata rd \r\n  INNER JOIN data_datagroup dg ON (rd.data_group_id = dg.id)\r\n  INNER JOIN data_robotsession rs ON (dg.robot_session_id = rs.id)\r\n  INNER JOIN data_session ds ON (rs.session_id = ds.id)\r\nWHERE dg.name = $dataGroup\r\n  AND rs.name = $robotSession\r\n  AND ds.active = true\r\n  AND ds.name = '$session'",
                     "refId": "A",
                     "sql": {
                         "columns": [
@@ -258,10 +508,10 @@
                 "overrides": []
             },
             "gridPos": {
-                "h": 10,
+                "h": 5,
                 "w": 24,
                 "x": 0,
-                "y": 8
+                "y": 13
             },
             "id": 2,
             "options": {
@@ -288,7 +538,7 @@
                     "editorMode": "code",
                     "format": "table",
                     "rawQuery": true,
-                    "rawSql": "SELECT rd.\"timestamp\", rd.data, dg.name\r\nFROM data_robotdata rd INNER JOIN data_datagroup dg ON (rd.data_group_id = dg.id)\r\nWHERE dg.robot_session_id = (\r\n  SELECT id \r\n  FROM data_robotsession \r\n  WHERE name = '$robotSession' and id = (\r\n    SELECT id \r\n    FROM data_session \r\n    WHERE active = true and name = '$session' \r\n  ) \r\n)",
+                    "rawSql": "SELECT rd.\"timestamp\", rd.data, dg.name\r\nFROM data_robotdata rd \r\n  INNER JOIN data_datagroup dg ON (rd.data_group_id = dg.id)\r\n  INNER JOIN data_robotsession rs ON (dg.robot_session_id = rs.id)\r\n  INNER JOIN data_session ds ON (rs.session_id = ds.id)\r\nWHERE dg.name IN ( ${dataGroup:sqlstring} )\r\n  AND rs.name = $robotSession\r\n  AND ds.active = true\r\n  AND ds.name = '$session'",
                     "refId": "A",
                     "sql": {
                         "columns": [
@@ -372,155 +622,6 @@
                 }
             ],
             "type": "timeseries"
-        },
-        {
-            "datasource": {
-                "type": "postgres",
-                "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
-            },
-            "description": "",
-            "fieldConfig": {
-                "defaults": {
-                    "color": {
-                        "mode": "continuous-GrYlRd"
-                    },
-                    "custom": {
-                        "fillOpacity": 70,
-                        "lineWidth": 0,
-                        "spanNulls": false
-                    },
-                    "mappings": [
-                        {
-                            "options": {
-                                "not ok": {
-                                    "color": "red",
-                                    "index": 1
-                                },
-                                "ok": {
-                                    "color": "green",
-                                    "index": 0
-                                }
-                            },
-                            "type": "value"
-                        }
-                    ],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    }
-                },
-                "overrides": []
-            },
-            "gridPos": {
-                "h": 10,
-                "w": 10,
-                "x": 0,
-                "y": 18
-            },
-            "id": 1,
-            "options": {
-                "alignValue": "left",
-                "legend": {
-                    "displayMode": "table",
-                    "placement": "bottom",
-                    "showLegend": true
-                },
-                "mergeValues": true,
-                "rowHeight": 0.9,
-                "showValue": "always",
-                "tooltip": {
-                    "mode": "single",
-                    "sort": "none"
-                }
-            },
-            "targets": [
-                {
-                    "datasource": {
-                        "type": "postgres",
-                        "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
-                    },
-                    "editorMode": "builder",
-                    "format": "table",
-                    "rawSql": "SELECT \"timestamp\" AS \"time\", name, status FROM data_robotstatus LIMIT 50 ",
-                    "refId": "A",
-                    "sql": {
-                        "columns": [
-                            {
-                                "alias": "\"time\"",
-                                "parameters": [
-                                    {
-                                        "name": "\"timestamp\"",
-                                        "type": "functionParameter"
-                                    }
-                                ],
-                                "type": "function"
-                            },
-                            {
-                                "parameters": [
-                                    {
-                                        "name": "name",
-                                        "type": "functionParameter"
-                                    }
-                                ],
-                                "type": "function"
-                            },
-                            {
-                                "parameters": [
-                                    {
-                                        "name": "status",
-                                        "type": "functionParameter"
-                                    }
-                                ],
-                                "type": "function"
-                            }
-                        ],
-                        "groupBy": [
-                            {
-                                "property": {
-                                    "type": "string"
-                                },
-                                "type": "groupBy"
-                            }
-                        ],
-                        "limit": 50
-                    },
-                    "table": "data_robotstatus"
-                }
-            ],
-            "title": "Panel Title",
-            "transformations": [
-                {
-                    "id": "groupingToMatrix",
-                    "options": {
-                        "columnField": "name",
-                        "emptyValue": "null",
-                        "rowField": "time",
-                        "valueField": "status"
-                    }
-                },
-                {
-                    "id": "convertFieldType",
-                    "options": {
-                        "conversions": [
-                            {
-                                "destinationType": "time",
-                                "targetField": "time\\name"
-                            }
-                        ],
-                        "fields": {}
-                    }
-                }
-            ],
-            "type": "state-timeline"
         }
     ],
     "refresh": "5s",
@@ -555,22 +656,28 @@
             },
             {
                 "current": {
-                    "selected": false,
-                    "text": "test robot",
-                    "value": "test robot"
+                    "selected": true,
+                    "text": [
+                        "test robot",
+                        "test robot2"
+                    ],
+                    "value": [
+                        "test robot",
+                        "test robot2"
+                    ]
                 },
                 "datasource": {
                     "type": "postgres",
                     "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
                 },
-                "definition": "SELECT name FROM data_robotsession WHERE session_id = (SELECT id FROM data_session WHERE name = '$session' AND active = true ) LIMIT 50 ",
+                "definition": "SELECT name FROM data_robotsession WHERE session_id = (SELECT id FROM data_session WHERE name = '$session' AND active = true )",
                 "hide": 0,
                 "includeAll": false,
                 "label": "Robot",
-                "multi": false,
+                "multi": true,
                 "name": "robotSession",
                 "options": [],
-                "query": "SELECT name FROM data_robotsession WHERE session_id = (SELECT id FROM data_session WHERE name = '$session' AND active = true ) LIMIT 50 ",
+                "query": "SELECT name FROM data_robotsession WHERE session_id = (SELECT id FROM data_session WHERE name = '$session' AND active = true )",
                 "refresh": 1,
                 "regex": "",
                 "skipUrlSync": false,
@@ -579,22 +686,58 @@
             },
             {
                 "current": {
-                    "selected": false,
-                    "text": "test graph",
-                    "value": "test graph"
+                    "selected": true,
+                    "text": [
+                        "test graph",
+                        "test graph2"
+                    ],
+                    "value": [
+                        "test graph",
+                        "test graph2"
+                    ]
                 },
                 "datasource": {
                     "type": "postgres",
                     "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
                 },
-                "definition": "SELECT name FROM data_datagroup WHERE robot_session_id = (SELECT id FROM data_robotsession WHERE name = '$robotSession' AND session_id = (SELECT id FROM data_session WHERE name = '$session' and active = true) ) LIMIT 50 ",
+                "definition": "SELECT name FROM data_datagroup WHERE robot_session_id IN (SELECT id FROM data_robotsession WHERE name IN ( ${robotSession:sqlstring} ) AND session_id = (SELECT id FROM data_session WHERE name = '$session' and active = true) )",
                 "hide": 1,
                 "includeAll": false,
                 "label": "data",
                 "multi": true,
                 "name": "dataGroup",
                 "options": [],
-                "query": "SELECT name FROM data_datagroup WHERE robot_session_id = (SELECT id FROM data_robotsession WHERE name = '$robotSession' AND session_id = (SELECT id FROM data_session WHERE name = '$session' and active = true) ) LIMIT 50 ",
+                "query": "SELECT name FROM data_datagroup WHERE robot_session_id IN (SELECT id FROM data_robotsession WHERE name IN ( ${robotSession:sqlstring} ) AND session_id = (SELECT id FROM data_session WHERE name = '$session' and active = true) )",
+                "refresh": 1,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 0,
+                "type": "query"
+            },
+            {
+                "current": {
+                    "selected": true,
+                    "text": [
+                        "test status",
+                        "test status2"
+                    ],
+                    "value": [
+                        "test status",
+                        "test status2"
+                    ]
+                },
+                "datasource": {
+                    "type": "postgres",
+                    "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
+                },
+                "definition": "SELECT rs.name\nFROM data_robotstatus rs INNER JOIN data_robotsession rse ON(rs.robot_id = rse.id) INNER JOIN data_session ds ON(rse.session_id = ds.id)\nWHERE ds.name = '$session' AND rse.name IN ( ${robotSession:sqlstring} ) AND ds.active = true",
+                "hide": 0,
+                "includeAll": false,
+                "label": "Status",
+                "multi": true,
+                "name": "robotStatus",
+                "options": [],
+                "query": "SELECT rs.name\nFROM data_robotstatus rs INNER JOIN data_robotsession rse ON(rs.robot_id = rse.id) INNER JOIN data_session ds ON(rse.session_id = ds.id)\nWHERE ds.name = '$session' AND rse.name IN ( ${robotSession:sqlstring} ) AND ds.active = true",
                 "refresh": 1,
                 "regex": "",
                 "skipUrlSync": false,
@@ -624,6 +767,6 @@
     "timezone": "",
     "title": "test dashboard",
     "uid": "e40543c1-2c15-4e0f-a7d5-c2475dca84f6",
-    "version": 11,
+    "version": 17,
     "weekStart": ""
 }
