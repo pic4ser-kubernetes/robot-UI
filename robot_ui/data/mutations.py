@@ -14,7 +14,8 @@ class UpdateStatusMutation(graphene.Mutation):
     def mutate(cls, root, info, status_dict: StatusInput):
         robot = RobotSession.objects.get(
             name=status_dict.robot,
-            session__name=status_dict.session
+            session__name=status_dict.session,
+            session__active=True
         )
 
         RobotStatus.objects.create(
@@ -38,7 +39,8 @@ class AddDataMutation(graphene.Mutation):
         data_group = DataGroup.objects.get(
             name=data_dict.data_group,
             robot_session__name=data_dict.robot,
-            robot_session__session__name=data_dict.session
+            robot_session__session__name=data_dict.session,
+            robot_session__session__active=True
         )
 
         RobotData.objects.create(
