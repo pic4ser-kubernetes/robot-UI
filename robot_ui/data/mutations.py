@@ -68,10 +68,12 @@ class AddWebcamMutation(graphene.Mutation):
             session__active=True
         )
 
-        RobotWebcam.objects.create(
+        RobotWebcam.objects.update_or_create(
             robot=robot,
             name=webcam_dict.name,
-            url=webcam_dict.url
+            defaults={
+                'url': webcam_dict.url
+            }
         )
 
         return cls(ok=True)
