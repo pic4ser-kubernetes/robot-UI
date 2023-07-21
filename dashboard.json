@@ -29,19 +29,41 @@
     "liveNow": false,
     "panels": [
         {
-            "collapsed": false,
+            "datasource": {
+                "type": "dashboard",
+                "uid": "-- Dashboard --"
+            },
+            "description": "",
             "gridPos": {
-                "h": 1,
+                "h": 11,
                 "w": 24,
                 "x": 0,
                 "y": 0
             },
-            "id": 7,
-            "panels": [],
-            "repeat": "robotSession",
-            "repeatDirection": "h",
-            "title": "$robotSession",
-            "type": "row"
+            "id": 9,
+            "options": {
+                "code": {
+                    "language": "plaintext",
+                    "showLineNumbers": false,
+                    "showMiniMap": false
+                },
+                "content": "<iframe src=\"${webcam:value}\" frameborder=\"0\" style=\"overflow:hidden;height:100%;width:100%\" height=\"100%\" width=\"100%\"></iframe>",
+                "mode": "html"
+            },
+            "pluginVersion": "10.0.1",
+            "repeat": "webcam",
+            "repeatDirection": "v",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "datasource",
+                        "uid": "-- Dashboard --"
+                    },
+                    "refId": "A"
+                }
+            ],
+            "title": "${webcam:text}",
+            "type": "text"
         },
         {
             "datasource": {
@@ -74,7 +96,7 @@
                 "h": 3,
                 "w": 12,
                 "x": 0,
-                "y": 1
+                "y": 11
             },
             "id": 4,
             "options": {
@@ -103,7 +125,7 @@
                     "editorMode": "code",
                     "format": "table",
                     "rawQuery": true,
-                    "rawSql": "SELECT rs.timestamp AS \"time\", rs.status\r\nFROM data_robotstatus rs\r\n  INNER JOIN data_robotsession rse ON(rs.robot_id = rse.id)\r\n  INNER JOIN data_session ds ON(rse.session_id = ds.id)\r\nWHERE ds.name = '$session' AND rse.name = $robotSession AND ds.active = true AND rs.name = $robotStatus",
+                    "rawSql": "SELECT timestamp AS \"time\", status\r\nFROM data_robotstatus\r\nWHERE name = ${robotStatus} AND robot_id = ${robotSession:value}",
                     "refId": "A",
                     "sql": {
                         "columns": [
@@ -179,7 +201,7 @@
                 "h": 4,
                 "w": 24,
                 "x": 0,
-                "y": 4
+                "y": 14
             },
             "id": 1,
             "options": {
@@ -206,7 +228,7 @@
                     "editorMode": "code",
                     "format": "table",
                     "rawQuery": true,
-                    "rawSql": "SELECT rs.timestamp AS \"time\", rs.name, rs.status\r\nFROM data_robotstatus rs\r\n  INNER JOIN data_robotsession rse ON (rs.robot_id = rse.id)\r\n  INNER JOIN data_session ds ON (rse.session_id = ds.id)\r\nWHERE rs.name IN ( ${robotStatus:sqlstring} )\r\n  AND rse.name = $robotSession\r\n  AND ds.active = true\r\n  AND ds.name = '$session'",
+                    "rawSql": "SELECT timestamp AS \"time\", name, status\r\nFROM data_robotstatus\r\nWHERE name IN ( ${robotStatus:sqlstring} )\r\n  AND robot_id = ${robotSession:value} ",
                     "refId": "A",
                     "sql": {
                         "columns": [
@@ -252,7 +274,7 @@
                     "table": "data_robotstatus"
                 }
             ],
-            "title": "Panel Title",
+            "title": "Status",
             "transformations": [
                 {
                     "id": "groupingToMatrix",
@@ -333,9 +355,9 @@
             },
             "gridPos": {
                 "h": 5,
-                "w": 12,
+                "w": 24,
                 "x": 0,
-                "y": 8
+                "y": 18
             },
             "id": 3,
             "maxPerRow": 2,
@@ -365,7 +387,7 @@
                     "editorMode": "code",
                     "format": "table",
                     "rawQuery": true,
-                    "rawSql": "SELECT rd.\"timestamp\", rd.data, dg.name\r\nFROM data_robotdata rd \r\n  INNER JOIN data_datagroup dg ON (rd.data_group_id = dg.id)\r\n  INNER JOIN data_robotsession rs ON (dg.robot_session_id = rs.id)\r\n  INNER JOIN data_session ds ON (rs.session_id = ds.id)\r\nWHERE dg.name = $dataGroup\r\n  AND rs.name = $robotSession\r\n  AND ds.active = true\r\n  AND ds.name = '$session'",
+                    "rawSql": "SELECT rd.\"timestamp\", rd.data, dg.name\r\nFROM data_robotdata rd \r\n  INNER JOIN data_datagroup dg ON (rd.data_group_id = dg.id)\r\nWHERE dg.id = ${dataGroup:value}",
                     "refId": "A",
                     "sql": {
                         "columns": [
@@ -511,7 +533,7 @@
                 "h": 5,
                 "w": 24,
                 "x": 0,
-                "y": 13
+                "y": 23
             },
             "id": 2,
             "options": {
@@ -538,7 +560,7 @@
                     "editorMode": "code",
                     "format": "table",
                     "rawQuery": true,
-                    "rawSql": "SELECT rd.\"timestamp\", rd.data, dg.name\r\nFROM data_robotdata rd \r\n  INNER JOIN data_datagroup dg ON (rd.data_group_id = dg.id)\r\n  INNER JOIN data_robotsession rs ON (dg.robot_session_id = rs.id)\r\n  INNER JOIN data_session ds ON (rs.session_id = ds.id)\r\nWHERE dg.name IN ( ${dataGroup:sqlstring} )\r\n  AND rs.name = $robotSession\r\n  AND ds.active = true\r\n  AND ds.name = '$session'",
+                    "rawSql": "SELECT rd.\"timestamp\", rd.data, dg.name\r\nFROM data_robotdata rd \r\n  INNER JOIN data_datagroup dg ON (rd.data_group_id = dg.id)\r\nWHERE dg.id IN ( ${dataGroup:sqlstring} )",
                     "refId": "A",
                     "sql": {
                         "columns": [
@@ -634,82 +656,70 @@
                 "current": {
                     "selected": false,
                     "text": "test session",
-                    "value": "test session"
+                    "value": "2"
                 },
                 "datasource": {
                     "type": "postgres",
                     "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
                 },
-                "definition": "SELECT\n  name\nFROM\n  data_session\nWHERE\n  active = true\nLIMIT\n  50",
+                "definition": "SELECT CONCAT(name, ':-:', id)\nFROM data_session\nWHERE active = true",
                 "hide": 0,
                 "includeAll": false,
                 "label": "Session",
                 "multi": false,
                 "name": "session",
                 "options": [],
-                "query": "SELECT\n  name\nFROM\n  data_session\nWHERE\n  active = true\nLIMIT\n  50",
+                "query": "SELECT CONCAT(name, ':-:', id)\nFROM data_session\nWHERE active = true",
                 "refresh": 1,
-                "regex": "",
+                "regex": "/(?<text>.+):-:(?<value>[0-9]+)/g",
                 "skipUrlSync": false,
                 "sort": 0,
                 "type": "query"
             },
             {
                 "current": {
-                    "selected": true,
-                    "text": [
-                        "test robot",
-                        "test robot2"
-                    ],
-                    "value": [
-                        "test robot",
-                        "test robot2"
-                    ]
+                    "selected": false,
+                    "text": "test robot",
+                    "value": "1"
                 },
                 "datasource": {
                     "type": "postgres",
                     "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
                 },
-                "definition": "SELECT name FROM data_robotsession WHERE session_id = (SELECT id FROM data_session WHERE name = '$session' AND active = true )",
+                "definition": "SELECT CONCAT(name, ':-:', id)\nFROM data_robotsession\nWHERE session_id = ${session:value}",
                 "hide": 0,
                 "includeAll": false,
                 "label": "Robot",
-                "multi": true,
+                "multi": false,
                 "name": "robotSession",
                 "options": [],
-                "query": "SELECT name FROM data_robotsession WHERE session_id = (SELECT id FROM data_session WHERE name = '$session' AND active = true )",
+                "query": "SELECT CONCAT(name, ':-:', id)\nFROM data_robotsession\nWHERE session_id = ${session:value}",
                 "refresh": 1,
-                "regex": "",
+                "regex": "/(?<text>.+):-:(?<value>[0-9]+)/g",
                 "skipUrlSync": false,
                 "sort": 0,
                 "type": "query"
             },
             {
                 "current": {
-                    "selected": true,
-                    "text": [
-                        "test graph",
-                        "test graph2"
-                    ],
-                    "value": [
-                        "test graph",
-                        "test graph2"
-                    ]
+                    "selected": false,
+                    "text": "test graph",
+                    "value": "1"
                 },
                 "datasource": {
                     "type": "postgres",
                     "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
                 },
-                "definition": "SELECT name FROM data_datagroup WHERE robot_session_id IN (SELECT id FROM data_robotsession WHERE name IN ( ${robotSession:sqlstring} ) AND session_id = (SELECT id FROM data_session WHERE name = '$session' and active = true) )",
+                "definition": "SELECT CONCAT(name, ':-:', id)\nFROM data_datagroup\nWHERE robot_session_id = ${robotSession:value}",
                 "hide": 1,
                 "includeAll": false,
                 "label": "data",
                 "multi": true,
                 "name": "dataGroup",
                 "options": [],
-                "query": "SELECT name FROM data_datagroup WHERE robot_session_id IN (SELECT id FROM data_robotsession WHERE name IN ( ${robotSession:sqlstring} ) AND session_id = (SELECT id FROM data_session WHERE name = '$session' and active = true) )",
+                "query": "SELECT CONCAT(name, ':-:', id)\nFROM data_datagroup\nWHERE robot_session_id = ${robotSession:value}",
                 "refresh": 1,
-                "regex": "",
+                "regex": "/(?<text>.+):-:(?<value>[0-9]+)/g",
                 "skipUrlSync": false,
                 "sort": 0,
                 "type": "query"
@@ -718,28 +728,51 @@
                 "current": {
                     "selected": true,
                     "text": [
-                        "test status",
-                        "test status2"
+                        "test status2",
+                        "test status"
                     ],
                     "value": [
-                        "test status",
-                        "test status2"
+                        "test status2",
+                        "test status"
                     ]
                 },
                 "datasource": {
                     "type": "postgres",
                     "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
                 },
-                "definition": "SELECT rs.name\nFROM data_robotstatus rs INNER JOIN data_robotsession rse ON(rs.robot_id = rse.id) INNER JOIN data_session ds ON(rse.session_id = ds.id)\nWHERE ds.name = '$session' AND rse.name IN ( ${robotSession:sqlstring} ) AND ds.active = true",
+                "definition": "SELECT DISTINCT name\nFROM data_robotstatus\nWHERE robot_id = ${robotSession:value}",
                 "hide": 0,
                 "includeAll": false,
                 "label": "Status",
                 "multi": true,
                 "name": "robotStatus",
                 "options": [],
-                "query": "SELECT rs.name\nFROM data_robotstatus rs INNER JOIN data_robotsession rse ON(rs.robot_id = rse.id) INNER JOIN data_session ds ON(rse.session_id = ds.id)\nWHERE ds.name = '$session' AND rse.name IN ( ${robotSession:sqlstring} ) AND ds.active = true",
+                "query": "SELECT DISTINCT name\nFROM data_robotstatus\nWHERE robot_id = ${robotSession:value}",
                 "refresh": 1,
                 "regex": "",
+                "skipUrlSync": false,
+                "sort": 0,
+                "type": "query"
+            },
+            {
+                "current": {
+                    "selected": false,
+                    "text": "test webcam",
+                    "value": "http://192.168.127.84:8081/"
+                },
+                "datasource": {
+                    "type": "postgres",
+                    "uid": "cbbc004d-9595-48ca-8ce8-9b217fbb1493"
+                },
+                "definition": "SELECT CONCAT(name, ':-:', url)\nFROM data_robotwebcam\nWHERE robot_id = ${robotSession:value}",
+                "hide": 0,
+                "includeAll": false,
+                "multi": true,
+                "name": "webcam",
+                "options": [],
+                "query": "SELECT CONCAT(name, ':-:', url)\nFROM data_robotwebcam\nWHERE robot_id = ${robotSession:value}",
+                "refresh": 1,
+                "regex": "/(?<text>.+):-:(?<value>.+)/g",
                 "skipUrlSync": false,
                 "sort": 0,
                 "type": "query"
@@ -767,6 +800,6 @@
     "timezone": "",
     "title": "test dashboard",
     "uid": "e40543c1-2c15-4e0f-a7d5-c2475dca84f6",
-    "version": 17,
+    "version": 31,
     "weekStart": ""
 }
