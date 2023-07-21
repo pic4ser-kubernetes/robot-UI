@@ -16,3 +16,8 @@ class DataInput(SessionInput):
     data_group = graphene.String(required=True)
     data = graphene.Float(required=True)
     timestamp = graphene.DateTime(required=True)
+
+
+class WebcamInput(SessionInput):
+    name = graphene.String(required=True)
+    url = graphene.String(required=True)

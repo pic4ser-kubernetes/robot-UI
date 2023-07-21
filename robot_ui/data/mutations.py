@@ -1,7 +1,7 @@
 import graphene
 
-from .inputs import StatusInput, DataInput
-from .models import RobotStatus, DataGroup, RobotData, RobotSession
+from .inputs import StatusInput, DataInput, WebcamInput
+from .models import RobotStatus, DataGroup, RobotData, RobotSession, RobotWebcam
 
 
 class UpdateStatusMutation(graphene.Mutation):
@@ -54,6 +54,30 @@ class AddDataMutation(graphene.Mutation):
 # TODO: handle errors
 
 
+class AddWebcamMutation(graphene.Mutation):
+    class Arguments:
+        webcam_dict = WebcamInput(required=True)
+
+    ok = graphene.Boolean(required=True)
+
+    @classmethod
+    def mutate(cls, root, info, webcam_dict: WebcamInput):
+        robot = RobotSession.objects.get(
+            name=webcam_dict.robot,
+            session__name=webcam_dict.session,
+            session__active=True
+        )
+
+        RobotWebcam.objects.create(
+            robot=robot,
+            name=webcam_dict.name,
+            url=webcam_dict.url
+        )
+
+        return cls(ok=True)
+
+
 class Mutation(graphene.ObjectType):
     update_status = UpdateStatusMutation.Field()
     add_data = AddDataMutation.Field()
+    add_webcam = AddWebcamMutation.Field()

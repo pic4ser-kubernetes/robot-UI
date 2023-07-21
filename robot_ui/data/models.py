@@ -53,3 +53,13 @@ class RobotStatus(models.Model):
 
     def __str__(self):
         return f"{self.robot}({self.name}) - {self.timestamp}"
+
+
+class RobotWebcam(models.Model):
+    robot = models.ForeignKey(RobotSession, on_delete=models.CASCADE, related_name='robot_webcam')
+    name = models.CharField(max_length=256)
+
+    url = models.URLField()
+
+    def __str__(self):
+        return f"{self.robot}({self.name})"

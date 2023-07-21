@@ -69,6 +69,26 @@ class GQLSendMixin:
 
         return self._gql_send(query, variables)
 
+    def gql_add_webcam(self, session: str, robot: str, name: str, url: str):
+        query = '''
+        mutation addWebcam($session: String!, $robot: String!, $name: String!, $url: String!) {
+            addWebcam(
+                webcamDict: {session: $session, robot: $robot, name: $name, url: $url}
+            ) {
+                ok
+            }
+        }
+        '''
+
+        variables = {
+            'session': session,
+            'robot': robot,
+            'name': name,
+            'url': url,
+        }
+
+        return self._gql_send(query, variables)
+
 
 class MinimalSubscriber(GQLSendMixin, Node):
 
