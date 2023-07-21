@@ -18,4 +18,4 @@ RUN pip install --no-cache-dir /wheels/*
 COPY robot_ui /code/robot_ui
 WORKDIR /code/robot_ui
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["bash", "./entrypoint.sh"]
