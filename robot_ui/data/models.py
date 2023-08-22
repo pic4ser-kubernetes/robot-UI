@@ -21,6 +21,8 @@ class RobotSession(models.Model):
 
     class Meta:
         default_permissions = ()
+        verbose_name = 'Robot'
+        verbose_name_plural = 'Robots'
 
 
 class DataGroup(models.Model):

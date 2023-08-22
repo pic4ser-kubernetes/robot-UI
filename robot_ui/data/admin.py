@@ -1,11 +1,12 @@
 from django.contrib import admin
 
-from .models import Session, RobotSession, DataGroup, RobotData, RobotStatus
+from .models import Session, RobotSession, DataGroup
 
 
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'active',)
+    list_filter = ('active',)
 
 
 @admin.register(RobotSession)
