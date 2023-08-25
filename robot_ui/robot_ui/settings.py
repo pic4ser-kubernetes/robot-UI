@@ -25,6 +25,7 @@ INSTALLED_APPS = [
 
     "graphene_django",
     'data',
+    'controller',
 ]
 
 MIDDLEWARE = [
