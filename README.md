@@ -5,7 +5,9 @@
 This is repository of the Robot UI project. It is a docker stack composed of the following applications:
 
 - A PostgreSQL database
+- A redis database
 - A Django web application
+- A NGINX proxy server
 - A Grafana dashboard
 - A ROS2 container
 
@@ -72,6 +74,6 @@ TODO
 
 The dashboard where all the data is represented is a Grafana dashboard. It is accessible at [`http://localhost:3000`](http://localhost:3000). The default credentials are `admin` for both username and password and it can be changed after the first login.
 
-An example dashbaord is available in this repo in the json file `dashboard.json`. It can be imported in Grafana going in the dashboard section in the left menu, then clicking the `New` button, `Import` and paste the content of the file in the `import via json` field.
+An example dashboard is available in this repo in the json file `dashboard.json`. It can be imported in Grafana going in the dashboard section in the left menu, then clicking the `New` button, `Import` and paste the content of the file in the `import via json` field.
 
 TODO images

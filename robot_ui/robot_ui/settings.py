@@ -15,6 +15,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +56,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'robot_ui.wsgi.application'
+ASGI_APPLICATION = 'robot_ui.asgi.application'
 
 
 # Database
@@ -119,3 +121,12 @@ GRAPHENE = {
 }
 
 ALLOWED_HOSTS = ['*']
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
