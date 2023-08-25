@@ -36,10 +36,10 @@ services:
     image: redis:7
     restart: unless-stopped
 
-  ros:
-    build: ./ros2_ws
-    volumes:
-      - ./ros2_ws:/ros2_ws
+  # ros:
+  #   build: ./ros2_ws
+  #   volumes:
+  #     - ./ros2_ws:/ros2_ws
 
   grafana:
     image: grafana/grafana-oss:10.0.2

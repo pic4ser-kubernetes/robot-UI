@@ -31,7 +31,8 @@ To run the stack, you need to have docker and docker-compose installed on your m
 ```bash
 docker compose up -d
 ```
-The ros container is only used in development, so it is not required and can be commented up.
+
+The ros container is only used in development, so it is commented.
 
 The first time the stack is run, 2 folders will be created: `database_data` and `grafana_data`. Those folders are used to store the data of the database and the dashboard. If you want to do backups or moving the stack to another machine while keeping all the database and the dashboard, you can copy those folders.
 
@@ -77,3 +78,10 @@ The dashboard where all the data is represented is a Grafana dashboard. It is ac
 An example dashboard is available in this repo in the json file `dashboard.json`. It can be imported in Grafana going in the dashboard section in the left menu, then clicking the `New` button, `Import` and paste the content of the file in the `import via json` field.
 
 TODO images
+
+## Controllers
+
+The web app provides 2 websocket endpoints for allowing the robot to receive commands from the user. The endpoints are:
+
+- `/ws/robot/`: every websocket connected to this endpoint will receive the commands sent to the next endpoint
+- `/ws/controller/`: the text sent to this endpoint will be forwarded to the websocket connected to the previous endpoint
