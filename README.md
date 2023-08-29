@@ -106,3 +106,10 @@ The web app provides 2 websocket endpoints for allowing the robot to receive com
 
 - `/ws/robot/`: every websocket connected to this endpoint will receive the commands sent to the next endpoint
 - `/ws/controller/`: the text sent to this endpoint will be forwarded to the websocket connected to the previous endpoint
+
+In the `websocket_utils` folder in this repo there are 2 example scripts:
+
+- `controller.py`: handling controller input and sending it over a websocket
+- `receiver.py`: receiving messages from a websocket
+
+Both of these files need to be changed to use the correct websocket url and the receiver script doesn't have any handling of the received message; this can be done in the `on_message` function.
