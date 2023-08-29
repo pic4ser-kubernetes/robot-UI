@@ -113,3 +113,7 @@ In the `websocket_utils` folder in this repo there are 2 example scripts:
 - `receiver.py`: receiving messages from a websocket
 
 Both of these files need to be changed to use the correct websocket url and the receiver script doesn't have any handling of the received message; this can be done in the `on_message` function.
+
+### Known limitations
+
+- The package used for handling controller input (`pyglet`) only works if the computer has a screen. This means that computers controlled over ssh or rdp cannot be used to receive input from the controller using this script.
