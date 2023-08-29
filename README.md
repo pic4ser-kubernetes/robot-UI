@@ -69,15 +69,36 @@ Once the robot has finished streaming, sessions should be set as not active in o
 
 ## Webcams
 
-TODO
+The [dashboard](#dashboard) will try to connect directly to the robot to get the webcam output. This is done using the software motion.
+It can be installed on the robot using the following command:
+
+```bash
+sudo apt install motion
+```
+
+Then the configuration file `motion.conf` needs to be copied in the robot. This file can be found in the `motion` folder of this repository. More info about the configuration file can be found [here](https://motion-project.github.io/motion_config.html). After the configuration file is copied and motion installed, it can be started using the following command:
+
+```bash
+motion -c /path/to/motion.conf
+```
+
+In order to show the webcam on the dashboard the url needs to be registered in the database. It can be done in the `__init__` method of a node that subclasses the `GQLSendMixin` described above. The url can be registered using the `gql_add_webcam` method. An example can be found in `ros2_ws/src/ui_pkg/subscriber.py`.
 
 ## Dashboard
 
 The dashboard where all the data is represented is a Grafana dashboard. It is accessible at [`http://localhost:3000`](http://localhost:3000). The default credentials are `admin` for both username and password and it can be changed after the first login.
 
-An example dashboard is available in this repo in the json file `dashboard.json`. It can be imported in Grafana going in the dashboard section in the left menu, then clicking the `New` button, `Import` and paste the content of the file in the `import via json` field.
+An example dashboard is available in this repo in the json file `dashboard.json`. It can be imported in Grafana going in the dashboard section in the left menu, then clicking the `New` button, `Import` and paste the content of the file in the `import via json` field or drag and drop the json file in the drag and drop area.
 
-TODO images
+![Dashboard](./docs/images/grafana1.png)
+![Import](./docs/images/grafana2.png)
+![Json](./docs/images/grafana3.png)
+
+The dashboard is dynamic and will show the data of the robot that is selected using the settings at the top of the page.
+
+![Variables](./docs/images/variables.png)
+
+The variables need to be chosen from left to right. Some of them may be multiple choice, in that case you can select multiple values. Robot and session are not one of those, and if you want to monitor multiple robots at once you will need to have a separate tab or window for each of them.
 
 ## Controllers
 
