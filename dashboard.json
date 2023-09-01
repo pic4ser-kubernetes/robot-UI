@@ -36,7 +36,7 @@
             "description": "",
             "gridPos": {
                 "h": 11,
-                "w": 24,
+                "w": 12,
                 "x": 0,
                 "y": 0
             },
@@ -50,7 +50,7 @@
                 "content": "<iframe src=\"${webcam:value}\" frameborder=\"0\" style=\"overflow:hidden;height:100%;width:100%\" height=\"100%\" width=\"100%\"></iframe>",
                 "mode": "html"
             },
-            "pluginVersion": "10.0.1",
+            "pluginVersion": "10.0.2",
             "repeat": "webcam",
             "repeatDirection": "v",
             "targets": [
@@ -113,7 +113,7 @@
                 },
                 "textMode": "auto"
             },
-            "pluginVersion": "10.0.1",
+            "pluginVersion": "10.0.2",
             "repeat": "robotStatus",
             "repeatDirection": "h",
             "targets": [
@@ -345,8 +345,7 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green",
-                                "value": null
+                                "color": "green"
                             }
                         ]
                     }
@@ -517,8 +516,7 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green",
-                                "value": null
+                                "color": "green"
                             },
                             {
                                 "color": "red",
@@ -620,7 +618,7 @@
                     "table": "data_robotdata"
                 }
             ],
-            "title": "Both",
+            "title": "Every data group",
             "transformations": [
                 {
                     "id": "groupingToMatrix",
@@ -656,7 +654,7 @@
                 "current": {
                     "selected": false,
                     "text": "test session",
-                    "value": "2"
+                    "value": "1"
                 },
                 "datasource": {
                     "type": "postgres",
@@ -798,8 +796,8 @@
         ]
     },
     "timezone": "",
-    "title": "test dashboard",
+    "title": "PiC4Ser Robot UI",
     "uid": "e40543c1-2c15-4e0f-a7d5-c2475dca84f6",
-    "version": 31,
+    "version": 34,
     "weekStart": ""
 }
