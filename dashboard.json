@@ -93,10 +93,10 @@
                 "overrides": []
             },
             "gridPos": {
-                "h": 3,
+                "h": 5,
                 "w": 12,
-                "x": 0,
-                "y": 11
+                "x": 12,
+                "y": 0
             },
             "id": 4,
             "options": {
@@ -115,7 +115,7 @@
             },
             "pluginVersion": "10.0.2",
             "repeat": "robotStatus",
-            "repeatDirection": "h",
+            "repeatDirection": "v",
             "targets": [
                 {
                     "datasource": {
@@ -201,7 +201,7 @@
                 "h": 4,
                 "w": 24,
                 "x": 0,
-                "y": 14
+                "y": 11
             },
             "id": 1,
             "options": {
@@ -345,7 +345,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": null
                             }
                         ]
                     }
@@ -356,7 +357,7 @@
                 "h": 5,
                 "w": 24,
                 "x": 0,
-                "y": 18
+                "y": 15
             },
             "id": 3,
             "maxPerRow": 2,
@@ -516,7 +517,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": null
                             },
                             {
                                 "color": "red",
@@ -531,7 +533,7 @@
                 "h": 5,
                 "w": 24,
                 "x": 0,
-                "y": 23
+                "y": 20
             },
             "id": 2,
             "options": {
@@ -644,7 +646,7 @@
             "type": "timeseries"
         }
     ],
-    "refresh": "5s",
+    "refresh": false,
     "schemaVersion": 38,
     "style": "dark",
     "tags": [],
@@ -726,12 +728,12 @@
                 "current": {
                     "selected": true,
                     "text": [
-                        "test status2",
-                        "test status"
+                        "test status",
+                        "test status2"
                     ],
                     "value": [
-                        "test status2",
-                        "test status"
+                        "test status",
+                        "test status2"
                     ]
                 },
                 "datasource": {
@@ -778,8 +780,8 @@
         ]
     },
     "time": {
-        "from": "now-5m",
-        "to": "now"
+        "from": "2023-08-29T10:08:21.640Z",
+        "to": "2023-08-29T10:12:55.466Z"
     },
     "timepicker": {
         "refresh_intervals": [
@@ -798,6 +800,6 @@
     "timezone": "",
     "title": "PiC4Ser Robot UI",
     "uid": "e40543c1-2c15-4e0f-a7d5-c2475dca84f6",
-    "version": 34,
+    "version": 35,
     "weekStart": ""
 }
