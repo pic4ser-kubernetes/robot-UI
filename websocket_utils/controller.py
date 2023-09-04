@@ -1,7 +1,6 @@
 import pyglet
-import websocket
+import websocket  # https://pypi.org/project/websocket-client/
 import json
-import websocket
 import threading
 
 # Change this if needed
