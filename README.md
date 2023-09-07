@@ -100,6 +100,20 @@ The dashboard is dynamic and will show the data of the robot that is selected us
 
 The variables need to be chosen from left to right. Some of them may be multiple choice, in that case you can select multiple values. Robot and session are not one of those, and if you want to monitor multiple robots at once you will need to have a separate tab or window for each of them.
 
+### Customizing panels
+
+The panels can be customized by clicking the title of the panel and then clicking the `Edit` button.
+
+These are the basics for customizing a panel:
+
+![Edit panel](./docs/images/edit_panel.png)
+
+1. The type of panel can be changed here.
+2. Repeat option can be set on a dashboard variable. It will create a panel for each value of the variable. Some panels are already set to repeat on a variable.
+3. The query that is used to get the data is here. It can use dashboard variables too. Refer to the [Grafana variable sintax](https://grafana.com/docs/grafana/latest/dashboards/variables/variable-syntax/) for more info.
+4. Transforms can be applied to the data in order to make them compatible with the chosen type of panel. Refer to the [Grafana transforms documentation](https://grafana.com/docs/grafana/latest/panels/transformations/) for more info.
+5. Table view can be turned on and off in order to see how the final data table will look like. It is useful to see if the data is being transformed correctly.
+
 ## Controllers
 
 The web app provides 2 websocket endpoints for allowing the robot to receive commands from the user. The endpoints are:
